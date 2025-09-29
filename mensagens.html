@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mensagens 💖</title>
+    <style>
+        body {
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            color: #fff;
+        }
+
+        h1 {
+            font-size: 2.5rem;
+            margin: 30px 0 20px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .messages {
+            margin: 20px 0;
+            max-width: 600px;
+        }
+
+        .message {
+            background-color: rgba(255,255,255,0.2);
+            padding: 20px;
+            border-radius: 20px;
+            margin-bottom: 15px;
+            font-size: 1.2rem;
+            text-align: center;
+            box-shadow: 0 4px 6px rgba(0,0,0,0.2);
+        }
+
+        /* CARROSSEL VERTICAL PARA FOTOS DE CELULAR */
+        .carousel-container {
+            position: relative;
+            width: 80%;
+            max-width: 400px; /* mais estreito para fotos verticais */
+            height: 600px; /* mais alto para celular */
+            margin-bottom: 50px;
+            overflow: hidden;
+            border-radius: 25px;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.3);
+        }
+
+        .carousel-slide {
+            display: flex;
+            flex-direction: column;
+            height: 100%;
+            width: 100%;
+            transition: transform 1s ease-in-out;
+        }
+
+        .carousel-slide img {
+            width: 100%;
+            height: 600px;
+            object-fit: cover;
+            border-radius: 25px;
+            flex-shrink: 0;
+        }
+
+        .indicators {
+            display: flex;
+            justify-content: center;
+            margin-top: 15px;
+        }
+
+        .dot {
+            height: 12px;
+            width: 12px;
+            margin: 0 5px;
+            background-color: rgba(255,255,255,0.6);
+            border-radius: 50%;
+            display: inline-block;
+            transition: background-color 0.3s;
+        }
+
+        .dot.active {
+            background-color: #fff;
+        }
+
+        .rever {
+            margin-top: 15px;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 20px;
+            background-color: #ff6f91;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .rever:hover {
+            background-color: #ff4f7a;
+            transform: scale(1.05);
+        }
+    </style>
+</head>
+<body>
+
+    <h1>Minhas Mensagens para Você 💖</h1>
+
+    <div class="messages">
+        <div class="message">Você é a razão do meu sorriso todos os dias.</div>
+        <div class="message">Cada momento com você é único e especial.</div>
+        <div class="message">Espero que nosso amor cresça sempre mais!</div>
+    </div>
+
+    <div class="carousel-container">
+        <div class="carousel-slide" id="carouselSlide">
+            <img src="imagem1.jpg" alt="Foto 1">
+            <img src="imagem2.jpg" alt="Foto 2">
+            <img src="imagem3.jpg" alt="Foto 3">
+            <img src="imagem4.jpg" alt="Foto 4">
+            <img src="imagem5.jpg" alt="Foto 5">
+            <img src="imagem6.jpg" alt="Foto 6">
+        </div>
+    </div>
+
+    <div class="indicators" id="indicators"></div>
+    <button class="rever" onclick="restartCarousel()">Rever 💞</button>
+
+    <script>
+        const slide = document.getElementById('carouselSlide');
+        const totalSlides = slide.children.length;
+        const indicators = document.getElementById('indicators');
+        let currentIndex = 0;
+
+        // Criar indicadores
+        for (let i = 0; i < totalSlides; i++) {
+            const dot = document.createElement('span');
+            dot.classList.add('dot');
+            if (i === 0) dot.classList.add('active');
+            indicators.appendChild(dot);
+        }
+
+        const dots = document.querySelectorAll('.dot');
+
+        function updateIndicators() {
+            dots.forEach((dot, i) => {
+                dot.classList.toggle('active', i === currentIndex);
+            });
+        }
+
+        function nextSlide() {
+            if (currentIndex < totalSlides - 1) {
+                currentIndex++;
+                slide.style.transform = `translateY(-${currentIndex * 600}px)`;
+                updateIndicators();
+            } else {
+                clearInterval(autoSlide);
+            }
+        }
+
+        function restartCarousel() {
+            currentIndex = 0;
+            slide.style.transform = `translateY(0)`;
+            updateIndicators();
+            clearInterval(autoSlide);
+            autoSlide = setInterval(nextSlide, 3000);
+        }
+
+        let autoSlide = setInterval(nextSlide, 3000);
+    </script>
+
+</body>
+</html>
